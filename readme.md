@@ -33,3 +33,5 @@ A simple Machine Learning web app that predicts a student's performance index ba
 3. Deployed with Streamlit for real-time user interaction
 
 ---
+
+📂 The dataset used to build and train the model is also included in this repository for reference and experimentation.
