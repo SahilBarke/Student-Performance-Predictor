@@ -29,7 +29,7 @@ sleep = st.number_input("Sleep Hours", min_value=0.0, max_value=24.0, value=7.0)
 sample_papers = st.number_input("Sample Papers Practiced", min_value=0.0, value=5.0)
 
 if st.button("Predict Performance Index"):
-    # Step 1: Create input DataFrame
+    # input DataFrame
     input_dict = {
         "Hours Studied": hours,
         "Previous Scores": previous_scores,
@@ -40,16 +40,16 @@ if st.button("Predict Performance Index"):
 
     input_df = pd.DataFrame([input_dict])
 
-    # Step 2: Scale input data
+    # Scale input data
     input_scaled = scaler.transform(input_df)
 
-    # Step 3: Add constant/intercept column correctly
+    # Add constant/intercept column 
     input_scaled_const = sm.add_constant(input_scaled, has_constant="add")
 
-    # Step 4: Predict using statsmodels OLS
+    # Predict using statsmodels OLS
     prediction = model.predict(input_scaled_const)[0]
 
-    # Step 5: Display result
+    # Display result
     st.success(f"📈 Predicted Performance Index: **{prediction:.2f}**")
     st.markdown(
         "This index is a composite score based on various factors affecting student performance."
