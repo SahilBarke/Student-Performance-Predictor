@@ -17,19 +17,26 @@ st.set_page_config(page_title="Student Performance Predictor", layout="centered"
 st.title("Student Performance Index Predictor")
 st.markdown("Enter the student data below:")
 
-# Input fields
-hours = st.number_input("Hours Studied", min_value=0.0, max_value=24.0, value=4.0)
+# Input fields (daily-based constraints)
+hours = st.number_input("Hours Studied (per day)", min_value=0.0, max_value=16.0, value=4.0)
 previous_scores = st.number_input(
-    "Previous Scores", min_value=0.0, max_value=100.0, value=75.0
+    "Previous Scores (%)", min_value=0.0, max_value=100.0, value=75.0
 )
 extracurricular = st.number_input(
     "Extracurricular Activities (scale 0–10)", min_value=0.0, max_value=10.0, value=5.0
 )
-sleep = st.number_input("Sleep Hours", min_value=0.0, max_value=24.0, value=7.0)
+sleep = st.number_input("Sleep Hours (per day)", min_value=0.0, max_value=12.0, value=7.0)
 sample_papers = st.number_input("Sample Papers Practiced", min_value=0.0, value=5.0)
 
+# Normalize study + sleep if > 24 hours
+total_time = hours + sleep
+if total_time > 24:
+    hours = round((hours / total_time) * 24, 1)
+    sleep = round((sleep / total_time) * 24, 1)
+    st.warning(f"⏳ Adjusted to fit 24h/day: Study = {hours}h, Sleep = {sleep}h")
+
 if st.button("Predict Performance Index"):
-    # input DataFrame
+    # Prepare input data
     input_dict = {
         "Hours Studied": hours,
         "Previous Scores": previous_scores,
